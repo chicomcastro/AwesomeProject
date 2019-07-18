@@ -16,6 +16,8 @@ import {
   StatusBar,
   Button,
   Alert,
+  FlatList, ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -25,29 +27,24 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-
-//import console = require('console');
-
-// const App = () => {
-
 class AButton extends React.Component {
 
-  // constructor(props) {
-  //   super(props);
-  //   this.
-  // }
-  state = {
-    activated: true,
+  constructor(props) {
+    super(props);
+    this.state = {
+      activated: true,
+    }
   }
 
   render() {
     return (
-      <View>
-        <Button
-          title={this.props.activatedText}
-          disabled={!this.state.activated}
-          onPress={() => this.doFetch(this.props.url)}
-        />
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.pressed()}
+        >
+          <Text> {this.props.activatedText} </Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -85,11 +82,66 @@ class AButton extends React.Component {
   }
 }
 
-class App extends React.Component {
+class PokeList extends React.Component {
 
-  state = {
-    isLoading: false,
+  constructor(props) {
+    super(props);
+    this.state = { isLoading: true }
   }
+
+  componentDidMount() {
+    return fetch("https://pokeapi.co/api/v2/pokemon/")
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson.results,
+        }, function () {
+
+        });
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+
+
+  render() {
+
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, padding: 20 }}>
+          <ActivityIndicator />
+        </View>
+      )
+    }
+
+    return (
+      <View style={{ flex: 1, paddingTop: 20 }}>
+        <FlatList
+          data={this.state.dataSource}
+          renderItem={({ item }) => this.renderListButton(item.name, item.url)}
+          keyExtractor={(item) => item.url}
+        />
+      </View>
+    );
+  }
+
+  renderListButton(name, url) {
+    return (
+      <AButton activatedText={name} url={url}></AButton> //onPress={() => this.disableButton(this)} 
+    )
+  }
+}
+
+// function IsLoading(isLoading) {
+
+// }
+
+class App extends React.Component {
 
   render() {
     return (
@@ -107,41 +159,19 @@ class App extends React.Component {
             )}
             <View style={styles.body}>
               <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Step One</Text>
+                <Text style={styles.sectionTitle}>Pokemons</Text>
                 <Text style={styles.sectionDescription}>
-                  Edit <Text style={styles.highlight}>App.js</Text> to change this
-                  screen and then come back to see your edits. I'VE EDITTED THIS!
+                  Navigate to see your favorite pokemon's infos.
               </Text>
               </View>
               <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>See Your Changes</Text>
-                <Text style={styles.sectionDescription}>
-                  <ReloadInstructions />
-                </Text>
+                <PokeList></PokeList>
               </View>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Debug</Text>
-                <Text style={styles.sectionDescription}>
-                  <DebugInstructions />
-                </Text>
-              </View>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Learn More</Text>
-                <Text style={styles.sectionDescription}>
-                  Read the docs to discover what to do next:
-                </Text>
-                <AButton activatedText="Carregar" onPress={() => this.disableButton()} url="https://pokeapi.co/api/v2/item/126/"></AButton>
-              </View>
-              <LearnMoreLinks />
             </View>
           </ScrollView>
         </SafeAreaView>
       </Fragment>
     );
-  }
-
-  disableButton() {
-    this.setState({ activated: !this.state.activated });
   }
 };
 
