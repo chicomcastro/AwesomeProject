@@ -143,7 +143,7 @@ class PokeList extends React.Component {
   }
 }
 
-class OldApp extends React.Component {
+class ContentScreen extends React.Component {
 
   render() {
     return (
@@ -170,6 +170,18 @@ class OldApp extends React.Component {
                 <PokeList></PokeList>
               </View>
             </View>
+
+            <Button
+              title="Go to home"
+              onPress={() => {
+                this.props.navigation.dispatch(StackActions.reset({
+                  index: 0,
+                  actions: [
+                    NavigationActions.navigate({ routeName: 'Home' })
+                  ],
+                }))
+              }}
+            />
           </ScrollView>
         </SafeAreaView>
       </Fragment>
@@ -237,7 +249,7 @@ class HomeScreen extends React.Component {
         />
       </View>
     );
-  }  
+  }
 }
 
 class DetailsScreen extends React.Component {
@@ -245,9 +257,31 @@ class DetailsScreen extends React.Component {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Details Screen</Text>
+        <Button
+          title="Go to content"
+          onPress={() => {
+            this.props.navigation.dispatch(StackActions.reset({
+              index: 0,
+              actions: [
+                NavigationActions.navigate({ routeName: 'Content' })
+              ],
+            }))
+          }}
+        />
+        <Button
+          title="Go to Home"
+          onPress={() => {
+            this.props.navigation.dispatch(StackActions.reset({
+              index: 0,
+              actions: [
+                NavigationActions.navigate({ routeName: 'Home' })
+              ],
+            }))
+          }}
+        />
       </View>
     );
-  }  
+  }
 }
 
 const AppNavigator = createStackNavigator({
@@ -257,9 +291,12 @@ const AppNavigator = createStackNavigator({
   Details: {
     screen: DetailsScreen,
   },
+  Content: {
+    screen: ContentScreen,
+  },
 }, {
     initialRouteName: 'Home',
-});
+  });
 
 const AppContainer = createAppContainer(AppNavigator);
 
