@@ -27,6 +27,10 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
+
+//#region Introduction to React-Native section
 class AButton extends React.Component {
 
   constructor(props) {
@@ -58,25 +62,25 @@ class AButton extends React.Component {
     let url = this.props.url;
 
     // desativa
-    this.setState({ activated: false });
+    this.props.onPress();
 
     fetch(url)
       .then(response => {//console.log(response);
         response.json()
           .then(jsonData => {
             // ativa
-            this.setState({ activated: true });
+            this.props.onPress();
             Alert.alert("Êxito!"); console.log(jsonData);
           })
           .catch(err => {
             // ativa
-            this.setState({ activated: true });
+            this.props.onPress();
             Alert.alert("Erro no json!");
           });
       })
       .catch(err => {
         // ativa
-        this.setState({ activated: true });
+        this.props.onPress();
         Alert.alert("Erro no fetch!");
       });
   }
@@ -89,7 +93,7 @@ class PokeList extends React.Component {
     this.state = { isLoading: true }
   }
 
-  componentDidMount() {
+  componentDidMount() {                                 // Component has just been mounted
     return fetch("https://pokeapi.co/api/v2/pokemon/")
       .then((response) => response.json())
       .then((responseJson) => {
@@ -106,8 +110,6 @@ class PokeList extends React.Component {
         console.error(error);
       });
   }
-
-
 
   render() {
 
@@ -132,14 +134,14 @@ class PokeList extends React.Component {
 
   renderListButton(name, url) {
     return (
-      <AButton activatedText={name} url={url}></AButton> //onPress={() => this.disableButton(this)} 
+      <AButton activatedText={name} url={url} onPress={() => this.setListLoadingStatus()}></AButton> // 
     )
   }
+
+  setListLoadingStatus() {
+    this.setState({ isLoading: !this.state.isLoading });
+  }
 }
-
-// function IsLoading(isLoading) {
-
-// }
 
 class App extends React.Component {
 
@@ -214,4 +216,58 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+//export default App;
+
+//#endregion 
+
+//#region React-native-navigation
+class HomeScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Home Screen</Text>
+        <Button
+          title="Go to Details"
+          onPress={() => {
+            this.props.navigation.dispatch(StackActions.reset({
+              index: 0,
+              actions: [
+                NavigationActions.navigate({ routeName: 'Details' })
+              ],
+            }))
+          }}
+        />
+      </View>
+    );
+  }  
+}
+
+class DetailsScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Details Screen</Text>
+      </View>
+    );
+  }  
+}
+
+const AppNavigator = createStackNavigator({
+  Home: {
+    screen: HomeScreen,
+  },
+  Details: {
+    screen: DetailsScreen,
+  },
+}, {
+    initialRouteName: 'Home',
+});
+
+const AppContainer = createAppContainer(AppNavigator);
+
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
+  }
+}
+//#endregion
