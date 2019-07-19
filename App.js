@@ -28,7 +28,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
+//import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 
 //#region Introduction to React-Native section
 class AButton extends React.Component {
@@ -176,7 +176,6 @@ class App extends React.Component {
     );
   }
 };
-
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
@@ -215,59 +214,4 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
-//export default App;
-
-//#endregion 
-
-//#region React-native-navigation
-class HomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        <Button
-          title="Go to Details"
-          onPress={() => {
-            this.props.navigation.dispatch(StackActions.reset({
-              index: 0,
-              actions: [
-                NavigationActions.navigate({ routeName: 'Details' })
-              ],
-            }))
-          }}
-        />
-      </View>
-    );
-  }  
-}
-
-class DetailsScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Details Screen</Text>
-      </View>
-    );
-  }  
-}
-
-const AppNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen,
-  },
-  Details: {
-    screen: DetailsScreen,
-  },
-}, {
-    initialRouteName: 'Home',
-});
-
-const AppContainer = createAppContainer(AppNavigator);
-
-export default class App extends React.Component {
-  render() {
-    return <AppContainer />;
-  }
-}
-//#endregion
+export default App;
