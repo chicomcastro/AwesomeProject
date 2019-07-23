@@ -21,9 +21,8 @@ import {
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
+import { StackActions, NavigationActions } from 'react-navigation'
 
-//#region Introduction to React-Native section
 class AButton extends React.Component {
 
     constructor(props) {
@@ -35,12 +34,11 @@ class AButton extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View>
                 <TouchableOpacity
-                    style={styles.button}
                     onPress={() => this.pressed()}
                 >
-                    <Text> {this.props.activatedText} </Text>
+                    <Text style={styles.row}> {this.props.activatedText} </Text>
                 </TouchableOpacity>
             </View>
         );
@@ -88,18 +86,21 @@ class PokeList extends React.Component {
 
     componentDidMount() {                                 // Component has just been mounted
         return fetch("https://pokeapi.co/api/v2/pokemon/")
-            .then((response) => response.json())
-            .then((responseJson) => {
-
-                this.setState({
-                    isLoading: false,
-                    dataSource: responseJson.results,
-                }, function () {
-
-                });
-
+            .then(response => {
+                response.json()
+                    .then(responseJson => {
+                        this.setState({
+                            isLoading: false,
+                            dataSource: responseJson.results,
+                        }, function () {
+                            console.log("Poke list charged");
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    }), console.log("API accessed (fetch ok)");
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error(error);
             });
     }
@@ -108,20 +109,16 @@ class PokeList extends React.Component {
 
         if (this.state.isLoading) {
             return (
-                <View style={{ flex: 1, padding: 20 }}>
-                    <ActivityIndicator />
-                </View>
+                <ActivityIndicator />
             )
         }
 
         return (
-            <View style={{ flex: 1, paddingTop: 20 }}>
-                <FlatList
-                    data={this.state.dataSource}
-                    renderItem={({ item }) => this.renderListButton(item.name, item.url)}
-                    keyExtractor={(item) => item.url}
-                />
-            </View>
+            <FlatList
+                data={this.state.dataSource}
+                renderItem={({ item }) => this.renderListButton(item.name, item.url)}
+                keyExtractor={(item) => item.url}
+            />
         );
     }
 
@@ -140,51 +137,38 @@ class ContentScreen extends React.Component {
 
     render() {
         return (
-            <Fragment>
-                <StatusBar barStyle="dark-content" />
-                <SafeAreaView>
-                    <ScrollView
-                        contentInsetAdjustmentBehavior="automatic"
-                        style={styles.scrollView}>
-                        <Header />
-                        {global.HermesInternal == null ? null : (
-                            <View style={styles.engine}>
-                                <Text style={styles.footer}>Engine: Hermes</Text>
-                            </View>
-                        )}
-                        <View style={styles.body}>
-                            <View style={styles.sectionContainer}>
-                                <Text style={styles.sectionTitle}>Pokemons</Text>
-                                <Text style={styles.sectionDescription}>
-                                    Navigate to see your favorite pokemon's infos.
-                </Text>
-                            </View>
-                            <View style={styles.sectionContainer}>
-                                <PokeList></PokeList>
-                            </View>
-                        </View>
-
-                        <Button
-                            title="Go to home"
-                            onPress={() => {
-                                this.props.navigation.dispatch(StackActions.reset({
-                                    index: 0,
-                                    actions: [
-                                        NavigationActions.navigate({ routeName: 'Home' })
-                                    ],
-                                }))
-                            }}
-                        />
-                    </ScrollView>
-                </SafeAreaView>
-            </Fragment>
+            <View>
+                <PokeList
+                    style={styles.container}/>
+                <Button
+                    title="Go to home"
+                    onPress={() => {
+                        this.props.navigation.dispatch(StackActions.reset({
+                            index: 0,
+                            actions: [
+                                NavigationActions.navigate({ routeName: 'Home' })
+                            ],
+                        }))
+                    }
+                    }
+                />
+            </View>
         );
     }
 };
 
 const styles = StyleSheet.create({
     scrollView: {
+        flex: 1,
         backgroundColor: Colors.lighter,
+    },
+    container: {
+        flex: 1,
+    },
+    row: {
+        padding: 15,
+        marginBottom: 5,
+        backgroundColor: 'skyblue',
     },
     engine: {
         position: 'absolute',
