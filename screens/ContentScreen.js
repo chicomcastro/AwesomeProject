@@ -20,9 +20,7 @@ import {
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { StackActions, NavigationActions } from 'react-navigation'
-
-import { Header } from 'react-native-elements'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 //#region Introduction to React-Native section
 class AButton extends React.Component {
@@ -105,31 +103,63 @@ class PokeList extends React.Component {
 
 class ContentScreen extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = { isLoading: true }
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitle: (
+                <View>
+                    <View style={{ paddingLeft: 10 }}>
+                        <Text style={{ fontSize: 18 }}>
+                            Pokemons
+                    </Text>
+                    </View>
+                </View>),
+            headerRight: (
+                <View style={{ width: 30, height: 30, justifyContent: 'center', alignContent: 'center', paddingRight: 2 }}>
+                    <Button
+                        onPress={navigation.getParam('customParam')}  // let customParam be a function to call from this "static environment"
+                        title="Att"
+                    />
+                </View>
+            ),
+        };
+    };
+
+    componentDidMount() {
+        this.props.navigation.setParams({ customParam: this._onHeaderButtonClick });  // Sets customParam as a function on component mounting
     }
+
+    state = {
+        isLoading: true,
+    };
+
+    _onHeaderButtonClick = () => {  // Define witch function customParam should receive to perform action in this object
+
+        alert("Fui clicado");
+        // this.attData();
+        // this.setListLoadingStatus();
+    };
 
     setListLoadingStatus() {
         this.setState({ isLoading: !this.state.isLoading });
     }
 
-    componentDidMount() {                                 // Component has just been mounted
-        return fetch("https://pokeapi.co/api/v2/pokemon/")
-            .then((response) => response.json())
-            .then((responseJson) => {
-
-                this.setState({
-                    isLoading: false,
-                    dataSource: responseJson.results,
-                }, function () {
-
-                });
-
-            })
-            .catch((error) => {
-                console.error(error);
+    async attData() {
+        try {
+            const response = await fetch("https://pokeapi.co/api/v2/pokemon/");
+            const responseJson = await response.json();
+            this.setState({
+                isLoading: false,
+                dataSource: responseJson.results,
+            }, function () {
             });
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+    componentDidMount() {
+        return this.attData();
     }
 
     render() {
@@ -144,12 +174,6 @@ class ContentScreen extends React.Component {
 
         return (
             <View style={{ flex: 1 }}>
-                <Header
-                    placement='left'
-                    leftComponent={{ icon: 'menu', color: '#fff' }}
-                    centerComponent={{ text: 'POKEMONS', style: { fontSize: 18, color: '#fff' } }}
-                    rightComponent={{ icon: 'home', color: '#fff' }}
-                />
                 <ScrollView>
                     <View style={styles.body}>
                         <View style={styles.sectionContainer}>
