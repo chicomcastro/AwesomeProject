@@ -83,7 +83,37 @@ class PokeList extends React.Component {
 
     constructor(props) {
         super(props);
+    }
+
+    render() {
+
+        return (
+            <View style={{ flex: 1, paddingTop: 20 }}>
+                <FlatList
+                    data={this.props.dataSource}
+                    renderItem={({ item }) => this.renderListButton(item.name, item.url)}
+                    keyExtractor={(item) => item.url}
+                />
+            </View>
+        );
+    }
+
+    renderListButton(name, url) {
+        return (
+            <AButton activatedText={name} url={url} onPress={() => this.props.loadingEvent()}></AButton> // 
+        )
+    }
+}
+
+class ContentScreen extends React.Component {
+
+    constructor(props) {
+        super(props);
         this.state = { isLoading: true }
+    }
+
+    setListLoadingStatus() {
+        this.setState({ isLoading: !this.state.isLoading });
     }
 
     componentDidMount() {                                 // Component has just been mounted
@@ -115,31 +145,6 @@ class PokeList extends React.Component {
         }
 
         return (
-            <View style={{ flex: 1, paddingTop: 20 }}>
-                <FlatList
-                    data={this.state.dataSource}
-                    renderItem={({ item }) => this.renderListButton(item.name, item.url)}
-                    keyExtractor={(item) => item.url}
-                />
-            </View>
-        );
-    }
-
-    renderListButton(name, url) {
-        return (
-            <AButton activatedText={name} url={url} onPress={() => this.setListLoadingStatus()}></AButton> // 
-        )
-    }
-
-    setListLoadingStatus() {
-        this.setState({ isLoading: !this.state.isLoading });
-    }
-}
-
-class ContentScreen extends React.Component {
-
-    render() {
-        return (
             <Fragment>
                 <StatusBar barStyle="dark-content" />
                 <SafeAreaView>
@@ -160,7 +165,7 @@ class ContentScreen extends React.Component {
                 </Text>
                             </View>
                             <View style={styles.sectionContainer}>
-                                <PokeList></PokeList>
+                                <PokeList loadingEvent={()=>this.setListLoadingStatus} dataSource={this.state.dataSource} ></PokeList>
                             </View>
                         </View>
 

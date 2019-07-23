@@ -9,13 +9,13 @@ import {
     View,
     Text,
     StatusBar,
-    Button,
     Alert,
     FlatList, ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
 
-import { StackActions, NavigationActions } from 'react-navigation'
+import { StackActions, NavigationActions } from 'react-navigation';
+import { Button, ThemeProvider } from 'react-native-elements';
 
 class HomeScreen extends React.Component {
     render() {
@@ -33,6 +33,9 @@ class HomeScreen extends React.Component {
                         }))
                     }}
                 />
+                <ThemeProvider>
+                  <Button title="Hey!" />
+                </ThemeProvider>
             </View>
         );
     }
