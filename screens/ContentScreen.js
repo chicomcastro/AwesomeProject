@@ -114,7 +114,7 @@ class ContentScreen extends React.Component {
                     </View>
                 </View>),
             headerRight: (
-                <View style={{ width: 30, height: 30, justifyContent: 'center', alignContent: 'center', paddingRight: 2 }}>
+                <View style={{ width: null, height: 30, justifyContent: 'center', alignContent: 'center', paddingRight: 2 }}>
                     <Button
                         onPress={navigation.getParam('customParam')}  // let customParam be a function to call from this "static environment"
                         title="Att"
