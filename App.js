@@ -26,7 +26,7 @@ const AppNavigator = createStackNavigator({
     screen: ContentScreen,
   },
 }, {
-    initialRouteName: 'Home',
+    initialRouteName: 'Content',
   });
 
 const AppContainer = createAppContainer(AppNavigator);

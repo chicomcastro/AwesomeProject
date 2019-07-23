@@ -14,14 +14,15 @@ import {
 } from 'react-native';
 
 import {
-    Header,
     LearnMoreLinks,
     Colors,
     DebugInstructions,
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
+import { StackActions, NavigationActions } from 'react-navigation'
+
+import { Header } from 'react-native-elements'
 
 //#region Introduction to React-Native section
 class AButton extends React.Component {
@@ -145,44 +146,40 @@ class ContentScreen extends React.Component {
         }
 
         return (
-            <Fragment>
-                <StatusBar barStyle="dark-content" />
-                <SafeAreaView>
-                    <ScrollView
-                        contentInsetAdjustmentBehavior="automatic"
-                        style={styles.scrollView}>
-                        <Header />
-                        {global.HermesInternal == null ? null : (
-                            <View style={styles.engine}>
-                                <Text style={styles.footer}>Engine: Hermes</Text>
-                            </View>
-                        )}
-                        <View style={styles.body}>
-                            <View style={styles.sectionContainer}>
-                                <Text style={styles.sectionTitle}>Pokemons</Text>
-                                <Text style={styles.sectionDescription}>
-                                    Navigate to see your favorite pokemon's infos.
+            <View>
+                <ScrollView
+                    contentInsetAdjustmentBehavior="automatic"
+                    style={styles.scrollView}>
+                    <Header
+                        leftComponent={{ icon: 'menu', color: '#fff' }}
+                        centerComponent={{ text: 'POKEMONS', style: { color: '#fff' } }}
+                        rightComponent={{ icon: 'home', color: '#fff' }}
+                    />
+                    <View style={styles.body}>
+                        <View style={styles.sectionContainer}>
+                            <Text style={styles.sectionTitle}>Pokemons</Text>
+                            <Text style={styles.sectionDescription}>
+                                Navigate to see your favorite pokemon's infos.
                 </Text>
-                            </View>
-                            <View style={styles.sectionContainer}>
-                                <PokeList loadingEvent={()=>this.setListLoadingStatus} dataSource={this.state.dataSource} ></PokeList>
-                            </View>
                         </View>
+                        <View style={styles.sectionContainer}>
+                            <PokeList loadingEvent={() => this.setListLoadingStatus} dataSource={this.state.dataSource} ></PokeList>
+                        </View>
+                    </View>
 
-                        <Button
-                            title="Go to home"
-                            onPress={() => {
-                                this.props.navigation.dispatch(StackActions.reset({
-                                    index: 0,
-                                    actions: [
-                                        NavigationActions.navigate({ routeName: 'Home' })
-                                    ],
-                                }))
-                            }}
-                        />
-                    </ScrollView>
-                </SafeAreaView>
-            </Fragment>
+                    <Button
+                        title="Go to home"
+                        onPress={() => {
+                            this.props.navigation.dispatch(StackActions.reset({
+                                index: 0,
+                                actions: [
+                                    NavigationActions.navigate({ routeName: 'Home' })
+                                ],
+                            }))
+                        }}
+                    />
+                </ScrollView>
+            </View>
         );
     }
 };
