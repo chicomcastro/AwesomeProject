@@ -36,11 +36,8 @@ class AButton extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => this.pressed()}
-                >
+            <View>
+                <TouchableOpacity onPress={() => this.pressed()}>
                     <Text> {this.props.activatedText} </Text>
                 </TouchableOpacity>
             </View>
@@ -89,7 +86,7 @@ class PokeList extends React.Component {
     render() {
 
         return (
-            <View style={{ flex: 1, paddingTop: 20 }}>
+            <View style={styles.sectionList}>
                 <FlatList
                     data={this.props.dataSource}
                     renderItem={({ item }) => this.renderListButton(item.name, item.url)}
@@ -146,37 +143,27 @@ class ContentScreen extends React.Component {
         }
 
         return (
-            <View>
-                <ScrollView
-                    contentInsetAdjustmentBehavior="automatic"
-                    style={styles.scrollView}>
-                    <Header
-                        leftComponent={{ icon: 'menu', color: '#fff' }}
-                        centerComponent={{ text: 'POKEMONS', style: { color: '#fff' } }}
-                        rightComponent={{ icon: 'home', color: '#fff' }}
-                    />
+            <View style={{ flex: 1 }}>
+                <Header
+                    placement='left'
+                    leftComponent={{ icon: 'menu', color: '#fff' }}
+                    centerComponent={{ text: 'POKEMONS', style: { fontSize: 18, color: '#fff' } }}
+                    rightComponent={{ icon: 'home', color: '#fff' }}
+                />
+                <ScrollView>
                     <View style={styles.body}>
                         <View style={styles.sectionContainer}>
                             <Text style={styles.sectionTitle}>Pokemons</Text>
                             <Text style={styles.sectionDescription}>
                                 Navigate to see your favorite pokemon's infos.
-                </Text>
+                            </Text>
                         </View>
-                        <View style={styles.sectionContainer}>
-                            <PokeList loadingEvent={() => this.setListLoadingStatus} dataSource={this.state.dataSource} ></PokeList>
-                        </View>
+                        <PokeList loadingEvent={() => this.setListLoadingStatus} dataSource={this.state.dataSource} ></PokeList>
                     </View>
 
                     <Button
                         title="Go to home"
-                        onPress={() => {
-                            this.props.navigation.dispatch(StackActions.reset({
-                                index: 0,
-                                actions: [
-                                    NavigationActions.navigate({ routeName: 'Home' })
-                                ],
-                            }))
-                        }}
+                        onPress={() => { this.props.navigation.navigate({ routeName: 'Home' }) }}
                     />
                 </ScrollView>
             </View>
@@ -197,6 +184,12 @@ const styles = StyleSheet.create({
     },
     sectionContainer: {
         marginTop: 32,
+        paddingHorizontal: 24,
+    },
+    sectionList: {
+        fontSize: 12,
+        marginTop: 24,
+        justifyContent: 'center',
         paddingHorizontal: 24,
     },
     sectionTitle: {

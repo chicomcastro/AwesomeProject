@@ -22,25 +22,11 @@ class DetailsScreen extends React.Component {
                 <Text>Details Screen</Text>
                 <Button
                     title="Go to content"
-                    onPress={() => {
-                        this.props.navigation.dispatch(StackActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'Content' })
-                            ],
-                        }))
-                    }}
+                    onPress={() => { this.props.navigation.navigate({ routeName: 'Content' }) }}
                 />
                 <Button
                     title="Go to Home"
-                    onPress={() => {
-                        this.props.navigation.dispatch(StackActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'Home' })
-                            ],
-                        }))
-                    }}
+                    onPress={() => { this.props.navigation.navigate({ routeName: 'Home' }) }}
                 />
             </View>
         );
