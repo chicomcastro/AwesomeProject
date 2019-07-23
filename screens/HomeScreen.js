@@ -18,32 +18,48 @@ import {
 import { Button, ThemeProvider } from 'react-native-elements';
 
 class HomeScreen extends React.Component {
-    static navigationOptions = {
-        headerLeft: (
-            <View style={{ paddingLeft: 10 }}>
-                <Image
-                    source={{ uri: 'https://seeklogo.com/images/P/pokeball-logo-DC23868CA1-seeklogo.com.png' }}
-                    style={{ width: 30, height: 30 }}
-                />
-            </View>),
-        headerTitle: (
-            <View>
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerLeft: (
                 <View style={{ paddingLeft: 10 }}>
-                    <Text style={{ fontSize: 18 }}>
-                        myPokedex
+                    <Image
+                        source={{ uri: 'https://seeklogo.com/images/P/pokeball-logo-DC23868CA1-seeklogo.com.png' }}
+                        style={{ width: 30, height: 30 }}
+                    />
+                </View>),
+            headerTitle: (
+                <View>
+                    <View style={{ paddingLeft: 10 }}>
+                        <Text style={{ fontSize: 18 }}>
+                            myPokedex
                     </Text>
+                    </View>
+                </View>),
+            headerRight: (
+                <View style={{ width: 30, height: 30, justifyContent: 'center', alignContent: 'center', paddingRight: 2 }}>
+                    <Button
+                        onPress={navigation.getParam('customParam')}  // let customParam be a function to call from this "static environment"
+                        title="+"
+                        color="#fff"
+                    />
                 </View>
-            </View>),
-        headerRight: (
-            <View style={{ width: 30, height: 30, justifyContent:'center', alignContent:'center', paddingRight:2 }}>
-                <Button
-                    onPress={() => alert('This is a button!')}
-                    title="+"
-                    color="#fff"
-                />
-            </View>
-        ),
+            ),
+        };
     };
+
+    componentDidMount() {
+        this.props.navigation.setParams({ customParam: this._onHeaderButtonClick });  // Sets customParam as a function on component mounting
+    }
+
+    state = {
+        count: 0,
+    };
+
+    _onHeaderButtonClick = () => {  // Define witch function customParam should receive to perform action in this object
+        this.setState({ count: this.state.count + 1 });
+        alert(this.state.count);
+    };
+
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
