@@ -10,9 +10,9 @@ import React from 'react';
 
 import { createAppContainer, createStackNavigator } from 'react-navigation'
 
-import HomeScreen from './screens/HomeScreen'
-import ContentScreen from './screens/ContentScreen'
-import DetailsScreen from './screens/DetailsScreen'
+import HomeScreen from './src/screens/HomeScreen'
+import ContentScreen from './src/screens/ContentScreen'
+import DetailsScreen from './src/screens/DetailsScreen'
 
 
 const AppNavigator = createStackNavigator({
@@ -26,12 +26,12 @@ const AppNavigator = createStackNavigator({
     screen: ContentScreen,
   },
 }, {
-    initialRouteName: 'Home',
+    initialRouteName: 'Content',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: '#f4511e',
       },
-      headerTintColor: '#fff',
+      headerTintColor: '#000',
       headerTitleStyle: {
         fontWeight: 'bold',
       },

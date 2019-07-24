@@ -9,97 +9,19 @@ import {
     StatusBar,
     Button,
     Alert,
-    FlatList, ActivityIndicator,
+    FlatList,
+    ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
 
 import {
-    LearnMoreLinks,
     Colors,
-    DebugInstructions,
-    ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-//#region Introduction to React-Native section
-class AButton extends React.Component {
+import PokeList from '../custom_components/PokeList.js'
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            activated: true,
-        }
-    }
-
-    render() {
-        return (
-            <View>
-                <TouchableOpacity onPress={() => this.pressed()}>
-                    <Text> {this.props.activatedText} </Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
-
-    pressed() {
-        this.doFetch();
-    }
-
-    doFetch() {
-
-        let url = this.props.url;
-
-        // desativa
-        this.props.onPress();
-
-        fetch(url)
-            .then(response => {//console.log(response);
-                response.json()
-                    .then(jsonData => {
-                        // ativa
-                        this.props.onPress();
-                        Alert.alert("Êxito!"); console.log(jsonData);
-                    })
-                    .catch(err => {
-                        // ativa
-                        this.props.onPress();
-                        Alert.alert("Erro no json!");
-                    });
-            })
-            .catch(err => {
-                // ativa
-                this.props.onPress();
-                Alert.alert("Erro no fetch!");
-            });
-    }
-}
-
-class PokeList extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-
-        return (
-            <View style={styles.sectionList}>
-                <FlatList
-                    data={this.props.dataSource}
-                    renderItem={({ item }) => this.renderListButton(item.name, item.url)}
-                    keyExtractor={(item) => item.url}
-                />
-            </View>
-        );
-    }
-
-    renderListButton(name, url) {
-        return (
-            <AButton activatedText={name} url={url} onPress={() => this.props.loadingEvent()}></AButton> // 
-        )
-    }
-}
 
 class ContentScreen extends React.Component {
 
@@ -114,10 +36,11 @@ class ContentScreen extends React.Component {
                     </View>
                 </View>),
             headerRight: (
-                <View style={{ width: null, height: 30, justifyContent: 'center', alignContent: 'center', paddingRight: 2 }}>
+                <View>
                     <Icon.Button
                         onPress={navigation.getParam('customParam')}  // let customParam be a function to call from this "static environment"
                         name="undo"
+                        backgroundColor="#f4511e"
                     />
                 </View>
             ),
@@ -178,7 +101,11 @@ class ContentScreen extends React.Component {
                                 Navigate to see your favorite pokemon's infos.
                             </Text>
                         </View>
-                        <PokeList loadingEvent={() => this.setListLoadingStatus} dataSource={this.state.dataSource} ></PokeList>
+                        <PokeList
+                            loadingEvent={() => this.setListLoadingStatus()}
+                            navigationEvent={() => this.props.navigation.navigate({ routeName: "MyModal" })}
+                            dataSource={this.state.dataSource}
+                        ></PokeList>
                     </View>
 
                     <Button
@@ -204,12 +131,6 @@ const styles = StyleSheet.create({
     },
     sectionContainer: {
         marginTop: 32,
-        paddingHorizontal: 24,
-    },
-    sectionList: {
-        fontSize: 12,
-        marginTop: 24,
-        justifyContent: 'center',
         paddingHorizontal: 24,
     },
     sectionTitle: {
