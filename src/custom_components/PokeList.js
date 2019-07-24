@@ -39,7 +39,8 @@ export default class PokeList extends React.Component {
             <PokeListItem
                 activatedText={name}
                 url={url}
-                onPress={() => this.props.loadingEvent()}
+                loadingEvent={(loadingStatus) => this.props.loadingEvent(loadingStatus)}
+                navigationEvent={() => this.props.navigationEvent()}
             ></PokeListItem> // 
         )
     }

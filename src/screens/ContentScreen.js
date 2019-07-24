@@ -62,8 +62,8 @@ class ContentScreen extends React.Component {
         this.setListLoadingStatus();
     };
 
-    setListLoadingStatus() {
-        this.setState({ isLoading: !this.state.isLoading });
+    setListLoadingStatus(newLoadingState = false) {
+        this.setState({ isLoading: newLoadingState });
     }
 
     async attData() {
@@ -102,7 +102,7 @@ class ContentScreen extends React.Component {
                             </Text>
                         </View>
                         <PokeList
-                            loadingEvent={() => this.setListLoadingStatus()}
+                            loadingEvent={(loadingStatus) => this.setListLoadingStatus(loadingStatus)}
                             navigationEvent={() => this.props.navigation.navigate({ routeName: "MyModal" })}
                             dataSource={this.state.dataSource}
                         ></PokeList>
