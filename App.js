@@ -8,25 +8,39 @@
 
 import React from 'react';
 
-import { createAppContainer, createStackNavigator } from 'react-navigation'
+import { createAppContainer, createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation'
 
 import HomeScreen from './src/screens/HomeScreen'
 import ContentScreen from './src/screens/ContentScreen'
 import DetailsScreen from './src/screens/DetailsScreen'
 import ModalScreen from './src/screens/ModalScreen'
 
+const TabNavigator = createMaterialTopTabNavigator(
+  {
+    Home: { screen: HomeScreen },
+    Root: { screen: DetailsScreen },
+  },
+  {
+    tabBarOptions: {
+      labelStyle: {
+        fontSize: 14,
+        fontWeight: 'bold',
+      },
+      style: {
+        backgroundColor: '#f4511e',
+      },
+      activeTintColor: '#ddd',
+      inactiveTintColor: '#fff',
+    },
+  }
+)
+
 const MainStack = createStackNavigator({
   Home: {
-    screen: HomeScreen,
-  },
-  Details: {
-    screen: DetailsScreen,
-  },
-  Content: {
-    screen: ContentScreen,
+    screen: TabNavigator,
   },
 }, {
-    initialRouteName: 'Content',
+    initialRouteName: 'Home',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: '#f4511e',
@@ -42,7 +56,7 @@ const MainStack = createStackNavigator({
 const RootStack = createStackNavigator(
   {
     Main: {
-      screen: MainStack,
+      screen: ContentScreen,
     },
     MyModal: {
       screen: ModalScreen,
@@ -54,7 +68,8 @@ const RootStack = createStackNavigator(
   }
 );
 
-const AppContainer = createAppContainer(RootStack);
+
+const AppContainer = createAppContainer(MainStack);
 
 export default class App extends React.Component {
   render() {

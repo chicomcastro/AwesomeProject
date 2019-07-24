@@ -25,7 +25,7 @@ import PokeList from '../custom_components/PokeList.js'
 
 class ContentScreen extends React.Component {
 
-    static navigationOptions = ({ navigation, navigationOptions }) => {
+    static navigationOptions = ({ navigation }) => {
         return {
             title: 'Pokemons',
             headerRight: (
