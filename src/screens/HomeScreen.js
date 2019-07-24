@@ -20,14 +20,7 @@ import { Button, ThemeProvider } from 'react-native-elements';
 class HomeScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
-            headerLeft: (
-                <View style={{ paddingLeft: 10 }}>
-                    <Image
-                        source={{ uri: 'https://seeklogo.com/images/P/pokeball-logo-DC23868CA1-seeklogo.com.png' }}
-                        style={{ width: 30, height: 30 }}
-                    />
-                </View>),
-            title: "myPokedex",
+            title: "Pokemons",
             headerRight: (
                 <View style={{ width: 30, height: 30, justifyContent: 'center', alignContent: 'center', paddingRight: 2 }}>
                     <Button

@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import ReactNative from 'react-native';
 
 import { createAppContainer, createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation'
 
@@ -15,9 +16,14 @@ import ContentScreen from './src/screens/ContentScreen'
 import DetailsScreen from './src/screens/DetailsScreen'
 import ModalScreen from './src/screens/ModalScreen'
 
+import MyPager from './src/screens/ModalScreen'
+import { YellowBox } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 const TabNavigator = createMaterialTopTabNavigator(
   {
     Home: { screen: HomeScreen },
+    Pager: { screen: MyPager },
     Root: { screen: DetailsScreen },
   },
   {
@@ -42,7 +48,37 @@ const MainStack = createStackNavigator({
 }, {
     initialRouteName: 'Home',
     defaultNavigationOptions: {
+      title: 'myPokedex',
+
+      headerLeft: (
+        <ReactNative.View style={{ paddingLeft: 10 }}>
+          <ReactNative.Image
+            source={{ uri: 'https://seeklogo.com/images/P/pokeball-logo-DC23868CA1-seeklogo.com.png' }}
+            style={{ width: 30, height: 30 }}
+          />
+        </ReactNative.View>
+      ),
+      headerRight: (
+        <ReactNative.View style={{ alignContent: 'center', justifyContent: 'center', flexDirection: "row" }}>
+          < ReactNative.TouchableWithoutFeedback onPress={() => ReactNative.Alert.alert('This is a lupa!')}>
+            <ReactNative.View style={{ flex: 1, width: 50, alignItems:'center'  }}>
+              <Icon size={25} style={{ color: '#fff' }}
+                name="search"
+              />
+            </ReactNative.View>
+          </ReactNative.TouchableWithoutFeedback>
+          < ReactNative.TouchableWithoutFeedback onPress={() => ReactNative.Alert.alert('This is a reticencias!')}>
+            <ReactNative.View style={{ flex: 1, width: 50, alignItems:'center' }}>
+              <Icon size={25} style={{ color: '#fff' }}
+                name="ellipsis-v"
+              />
+            </ReactNative.View>
+          </ReactNative.TouchableWithoutFeedback>
+        </ReactNative.View>
+      ),
       headerStyle: {
+        elevation: 0, // remove shadow on Android
+        shadowOpacity: 0, // remove shadow on iOS
         backgroundColor: '#f4511e',
       },
       headerTintColor: '#fff',
@@ -73,6 +109,7 @@ const AppContainer = createAppContainer(MainStack);
 
 export default class App extends React.Component {
   render() {
+    YellowBox.ignoreWarnings(['ViewPagerAndroid']);
     return <AppContainer />;
   }
 }
