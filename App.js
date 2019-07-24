@@ -31,7 +31,7 @@ const MainStack = createStackNavigator({
       headerStyle: {
         backgroundColor: '#f4511e',
       },
-      headerTintColor: '#000',
+      headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
       },

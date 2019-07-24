@@ -27,14 +27,7 @@ class HomeScreen extends React.Component {
                         style={{ width: 30, height: 30 }}
                     />
                 </View>),
-            headerTitle: (
-                <View>
-                    <View style={{ paddingLeft: 10 }}>
-                        <Text style={{ fontSize: 18 }}>
-                            myPokedex
-                    </Text>
-                    </View>
-                </View>),
+            title: "myPokedex",
             headerRight: (
                 <View style={{ width: 30, height: 30, justifyContent: 'center', alignContent: 'center', paddingRight: 2 }}>
                     <Button
