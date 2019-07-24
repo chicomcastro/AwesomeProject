@@ -115,9 +115,9 @@ class ContentScreen extends React.Component {
                 </View>),
             headerRight: (
                 <View style={{ width: null, height: 30, justifyContent: 'center', alignContent: 'center', paddingRight: 2 }}>
-                    <Button
+                    <Icon.Button
                         onPress={navigation.getParam('customParam')}  // let customParam be a function to call from this "static environment"
-                        title="Att"
+                        name="undo"
                     />
                 </View>
             ),
@@ -135,9 +135,8 @@ class ContentScreen extends React.Component {
 
     _onHeaderButtonClick = () => {  // Define witch function customParam should receive to perform action in this object
 
-        alert("Fui clicado");
-        // this.attData();
-        // this.setListLoadingStatus();
+        this.attData();
+        this.setListLoadingStatus();
     };
 
     setListLoadingStatus() {
