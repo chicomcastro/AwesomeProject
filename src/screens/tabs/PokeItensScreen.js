@@ -13,13 +13,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { StackActions, NavigationActions } from 'react-navigation'
-
-class DetailsScreen extends React.Component {
+export default class PokeItensScreen extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Details Screen</Text>
+                <Text>PokeItensScreen</Text>
                 <Button
                     title="Go to content"
                     onPress={() => { this.props.navigation.navigate({ routeName: 'Content' }) }}
@@ -32,5 +30,3 @@ class DetailsScreen extends React.Component {
         );
     }
 }
-
-export default DetailsScreen;

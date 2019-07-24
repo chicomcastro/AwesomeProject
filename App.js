@@ -11,26 +11,42 @@ import ReactNative from 'react-native';
 
 import { createAppContainer, createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation'
 
-import HomeScreen from './src/screens/HomeScreen'
-import ContentScreen from './src/screens/ContentScreen'
-import DetailsScreen from './src/screens/DetailsScreen'
 import ModalScreen from './src/screens/ModalScreen'
 
-import MyPager from './src/screens/ModalScreen'
+import FavoritesScreen from './src/screens/tabs/FavoritesScreen'
+import PokeListScreen from './src/screens/tabs/PokeListScreen'
+import PokeItensScreen from './src/screens/tabs/PokeItensScreen'
+
 import { YellowBox } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+const RootStack = createStackNavigator(
+  {
+    Main: {
+      screen: PokeListScreen,
+    },
+    MyModal: {
+      screen: ModalScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);
+
 const TabNavigator = createMaterialTopTabNavigator(
   {
-    Home: { screen: HomeScreen },
-    Pager: { screen: MyPager },
-    Root: { screen: DetailsScreen },
+    Favorites: { screen: FavoritesScreen },
+    Pokemons: { screen: RootStack },
+    Itens: { screen: PokeItensScreen },
   },
   {
     tabBarOptions: {
       labelStyle: {
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: 'bold',
+        color: '#fff'
       },
       style: {
         backgroundColor: '#f4511e',
@@ -51,10 +67,10 @@ const MainStack = createStackNavigator({
       title: 'myPokedex',
 
       headerLeft: (
-        <ReactNative.View style={{ paddingLeft: 10 }}>
+        <ReactNative.View style={{ alignItems:'center', paddingLeft: 10 }}>
           <ReactNative.Image
             source={{ uri: 'https://seeklogo.com/images/P/pokeball-logo-DC23868CA1-seeklogo.com.png' }}
-            style={{ width: 30, height: 30 }}
+            style={{ width: 35, height: 35 }}
           />
         </ReactNative.View>
       ),
@@ -88,22 +104,6 @@ const MainStack = createStackNavigator({
     },
   }
 );
-
-const RootStack = createStackNavigator(
-  {
-    Main: {
-      screen: ContentScreen,
-    },
-    MyModal: {
-      screen: ModalScreen,
-    },
-  },
-  {
-    mode: 'modal',
-    headerMode: 'none',
-  }
-);
-
 
 const AppContainer = createAppContainer(MainStack);
 

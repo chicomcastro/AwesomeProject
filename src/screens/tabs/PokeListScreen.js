@@ -20,10 +20,10 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import PokeList from '../custom_components/PokeList.js'
+import PokeList from '../../custom_components/PokeList.js'
 
 
-class ContentScreen extends React.Component {
+export default class PokeListScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
@@ -149,6 +149,4 @@ const styles = StyleSheet.create({
         textAlign: 'right',
     },
 });
-
-export default ContentScreen;
 
