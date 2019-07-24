@@ -126,6 +126,7 @@ class ContentScreen extends React.Component {
 
     componentDidMount() {
         this.props.navigation.setParams({ customParam: this._onHeaderButtonClick });  // Sets customParam as a function on component mounting
+        return this.attData();
     }
 
     state = {
@@ -156,10 +157,6 @@ class ContentScreen extends React.Component {
         catch (error) {
             console.error(error);
         }
-    }
-
-    componentDidMount() {
-        return this.attData();
     }
 
     render() {
