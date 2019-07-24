@@ -25,35 +25,13 @@ import PokeList from '../../custom_components/PokeList.js'
 
 export default class PokeListScreen extends React.Component {
 
-    static navigationOptions = ({ navigation }) => {
-        return {
-            title: 'Pokemons',
-            headerRight: (
-                <View>
-                    <Icon.Button
-                        onPress={navigation.getParam('customParam')}  // let customParam be a function to call from this "static environment"
-                        name="undo"
-                        backgroundColor="#f4511e"
-                    />
-                </View>
-            ),
-        };
-    };
-
-    componentDidMount() {
-        this.props.navigation.setParams({ customParam: this._onHeaderButtonClick });  // Sets customParam as a function on component mounting
-        return this.attData();
-    }
-
     state = {
         isLoading: true,
     };
 
-    _onHeaderButtonClick = () => {  // Define witch function customParam should receive to perform action in this object
-
-        this.attData();
-        this.setListLoadingStatus();
-    };
+    componentDidMount() {
+        return this.attData();
+    }
 
     setListLoadingStatus(newLoadingState = false) {
         this.setState({ isLoading: newLoadingState });
@@ -85,27 +63,16 @@ export default class PokeListScreen extends React.Component {
         }
 
         return (
-            <View style={{ flex: 1 }}>
-                <ScrollView>
-                    <View style={styles.body}>
-                        <View style={styles.sectionContainer}>
-                            <Text style={styles.sectionTitle}>Pokemons</Text>
-                            <Text style={styles.sectionDescription}>
-                                Navigate to see your favorite pokemon's infos.
-                            </Text>
-                        </View>
-                        <PokeList
-                            loadingEvent={(loadingStatus) => this.setListLoadingStatus(loadingStatus)}
-                            navigationEvent={() => this.props.navigation.navigate({ routeName: "MyModal" })}
-                            dataSource={this.state.dataSource}
-                        ></PokeList>
-                    </View>
-
-                    <Button
-                        title="Go to home"
-                        onPress={() => { this.props.navigation.navigate({ routeName: 'Home' }) }}
-                    />
-                </ScrollView>
+            <View style={{ flex: 1, alignItems:'center', paddingTop: 24 }}>
+                <PokeList
+                    navigationEvent={(url) => {
+                        this.props.navigation.navigate(
+                            { routeName: 'MyModal', url: url  },
+                            
+                        )
+                    }}
+                    dataSource={this.state.dataSource}
+                ></PokeList>
             </View>
         );
     }

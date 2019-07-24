@@ -24,33 +24,20 @@ export default class PokeList extends React.Component {
 
     render() {
         return (
-            <View style={styles.sectionList}>
-                <FlatList
-                    data={this.props.dataSource}
-                    renderItem={({ item }) => this.renderListButton(item.name, item.url)}
-                    keyExtractor={(item) => item.url}
-                />
-            </View>
+            <FlatList
+                data={this.props.dataSource}
+                renderItem={({ item }) => this.renderListButton(item.name, item.url)}
+                keyExtractor={(item) => item.url}
+            />
         );
     }
 
     renderListButton(name, url) {
         return (
             <PokeListItem
-                activatedText={name}
-                url={url}
-                loadingEvent={(loadingStatus) => this.props.loadingEvent(loadingStatus)}
-                navigationEvent={() => this.props.navigationEvent()}
+                activatedText={name.charAt(0).toUpperCase() + name.slice(1)}
+                navigationEvent={() => this.props.navigationEvent(url)}
             ></PokeListItem> // 
         )
     }
 }
-
-const styles = StyleSheet.create({
-    sectionList: {
-        fontSize: 12,
-        marginTop: 24,
-        justifyContent: 'center',
-        paddingHorizontal: 24,
-    },
-});

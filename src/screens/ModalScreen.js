@@ -16,7 +16,39 @@ import {
 
 import { Button, ThemeProvider } from 'react-native-elements';
 
-class ModalScreen extends React.Component {
+
+export default class ModalScreen extends React.Component {
+    
+
+    doFetch() {
+
+        let url = this.props.url;
+
+        // desativa
+        this.props.loadingEvent(true);
+
+        fetch(url)
+            .then(response => {//console.log(response);
+                response.json()
+                    .then(jsonData => {
+                        // ativa
+                        this.props.navigationEvent();
+                        this.props.loadingEvent(false);
+                        //Alert.alert("Êxito!"); console.log(jsonData);
+                    })
+                    .catch(err => {
+                        // ativa
+                        this.props.loadingEvent();
+                        Alert.alert("Erro no json!");
+                    });
+            })
+            .catch(err => {
+                // ativa
+                this.props.loadingEvent();
+                Alert.alert("Erro no fetch!");
+            });
+    }
+
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -32,7 +64,7 @@ class ModalScreen extends React.Component {
 
 import ViewPager from "@react-native-community/viewpager";
 
-export default class MyPager extends React.Component { 
+export class MyPager extends React.Component { 
   render() {
     return (
       <ViewPager
