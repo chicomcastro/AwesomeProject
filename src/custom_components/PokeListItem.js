@@ -26,9 +26,26 @@ export default class PokeListItem extends React.Component {
 
     render() {
         return (
-            <View>
-                <TouchableOpacity onPress={() => this.pressed()}>
-                    <Text> {this.props.activatedText} </Text>
+            <View
+                style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    paddingHorizontal: 10,
+                    paddingVertical: 5
+                }}
+            >
+                <TouchableOpacity
+                    onPress={() => this.pressed()}
+                >
+                    <Text
+                        style={{
+                            padding: 10,
+                            fontSize: 18,
+                            height: 44,
+                        }}
+                    >
+                        {this.props.activatedText}
+                    </Text>
                 </TouchableOpacity>
             </View>
         );

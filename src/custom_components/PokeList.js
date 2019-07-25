@@ -16,6 +16,7 @@ import {
 
 import PokeListItem from '../custom_components/PokeListItem.js'
 
+
 export default class PokeList extends React.Component {
 
     constructor(props) {
