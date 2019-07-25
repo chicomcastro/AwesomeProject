@@ -12,6 +12,7 @@ import {
     FlatList,
     ActivityIndicator,
     TouchableOpacity,
+    RefreshControl,
 } from 'react-native';
 
 import {
@@ -27,6 +28,9 @@ export default class PokeListScreen extends React.Component {
 
     state = {
         isLoading: true,
+        isRefreshing: false,
+        dataSource: [],
+        error: ''
     };
 
     componentDidMount() {
@@ -67,12 +71,23 @@ export default class PokeListScreen extends React.Component {
                 <PokeList
                     navigationEvent={(url) => {
                         this.props.navigation.navigate(
-                            { routeName: 'MyModal', url: url  },
-                            
+                            { routeName: 'MyModal', url: url },
+
                         )
                     }}
                     dataSource={this.state.dataSource}
-                    onEndReached={() => {Alert.alert("Cheguei ao fim")}}
+                    onEndReached={() => { Alert.alert("Cheguei ao fim") }}
+
+                    extraData={this.state}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.isLoading}
+                            onRefresh={() => {
+                                this.setState({ isLoading: true });
+                                this.attData();
+                            }}
+                        />
+                    }
                 ></PokeList>
             </View>
         );

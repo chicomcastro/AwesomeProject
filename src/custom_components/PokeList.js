@@ -43,6 +43,8 @@ export default class PokeList extends React.Component {
                 }
                 onEndReachedThreshold={0.1}
                 onEndReached={() => this.props.onEndReached ? this.props.onEndReached() : null}
+                extraData={this.props.extraData}
+                refreshControl={this.props.refreshControl}
             />
         );
     }
