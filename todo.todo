@@ -1,6 +1,8 @@
 Todos:
 ☐ Search function
+(https://docs.nativebase.io/Components.html#search-bar-headref)
 ☐ Favorites list
+(https://www.npmjs.com/package/react-native-swipe-list-view)
     ☐ Persist data local
     ☐ Implement firebase integration
 ☐ Details Screen
