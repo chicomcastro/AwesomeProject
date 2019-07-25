@@ -29,7 +29,7 @@ export default class PokeList extends React.Component {
                 data={this.props.dataSource}
                 renderItem={({ item }) => this.renderListButton(item.name, item.url)}
                 keyExtractor={(item) => item.url}
-                numColumns={2}
+                numColumns={1}
                 ListEmptyComponent={
                     <Text
                         style={{
@@ -41,6 +41,8 @@ export default class PokeList extends React.Component {
                         Your list is empty
                     </Text>
                 }
+                onEndReachedThreshold={0.1}
+                onEndReached={() => this.props.onEndReached ? this.props.onEndReached() : null}
             />
         );
     }

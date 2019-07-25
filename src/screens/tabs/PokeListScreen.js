@@ -72,6 +72,7 @@ export default class PokeListScreen extends React.Component {
                         )
                     }}
                     dataSource={this.state.dataSource}
+                    onEndReached={() => {Alert.alert("Cheguei ao fim")}}
                 ></PokeList>
             </View>
         );
