@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/viewpager": "^1.1.7",
+    "metro-inspector-proxy": "^0.55.0",
     "react": "16.8.6",
     "react-native": "0.60.4",
     "react-native-elements": "^1.1.0",
