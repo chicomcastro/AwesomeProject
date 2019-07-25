@@ -15,7 +15,6 @@ import ModalScreen from './src/screens/ModalScreen'
 
 import FavoritesScreen from './src/screens/tabs/FavoritesScreen'
 import PokeListScreen from './src/screens/tabs/PokeListScreen'
-import PokeItensScreen from './src/screens/tabs/PokeItensScreen'
 
 import { YellowBox } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
