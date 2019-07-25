@@ -79,10 +79,10 @@ export default class PokeList extends React.Component {
         return (
             <PokeListItem
                 activatedText={name.charAt(0).toUpperCase() + name.slice(1)}
-                navigationEvent={() => {
+                navigationEvent={() => { this.props.routeName ?
                     this.props.navigation.navigate(
-                        { routeName: 'MyModal', url: url },
-                    )
+                        { routeName: this.props.routeName , url: url },
+                    ) : null
                 }}
             ></PokeListItem> // 
         )

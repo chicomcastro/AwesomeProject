@@ -28,7 +28,7 @@ export default class PokeListScreen extends React.Component {
 
     async getDataFromAPI(obj) {
         try {
-            const response = await fetch("https://pokeapi.co/api/v2/pokemon/");
+            const response = await fetch(this.props.navigation.state.params.url);
             const responseJson = await response.json();
             obj.setState({
                 isLoading: false,
@@ -54,6 +54,7 @@ export default class PokeListScreen extends React.Component {
                     // Customized
                     loadList={(obj) => this.getDataFromAPI(obj)}
                     onEndReached={() => { Alert.alert("Cheguei ao fim") }}
+                    routeName="MyModal"
                 ></PokeList>
             </View>
         );
