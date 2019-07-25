@@ -29,6 +29,18 @@ export default class PokeList extends React.Component {
                 data={this.props.dataSource}
                 renderItem={({ item }) => this.renderListButton(item.name, item.url)}
                 keyExtractor={(item) => item.url}
+                numColumns={2}
+                ListEmptyComponent={
+                    <Text
+                        style={{
+                            padding: 10,
+                            fontSize: 18,
+                            height: 44,
+                        }}
+                    >
+                        Your list is empty
+                    </Text>
+                }
             />
         );
     }
