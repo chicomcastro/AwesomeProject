@@ -30,10 +30,6 @@ export default class PokeList extends React.Component {
         return this.props.loadList(this);
     }
 
-    setListLoadingStatus(newLoadingState = false) {
-        this.setState({ isLoading: newLoadingState });
-    }
-
     render() {
 
         if (this.state.isLoading) {
