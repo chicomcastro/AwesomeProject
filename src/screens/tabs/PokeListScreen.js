@@ -26,68 +26,35 @@ import PokeList from '../../custom_components/PokeList.js'
 
 export default class PokeListScreen extends React.Component {
 
-    state = {
-        isLoading: true,
-        isRefreshing: false,
-        dataSource: [],
-        error: ''
-    };
-
-    componentDidMount() {
-        return this.attData();
-    }
-
-    setListLoadingStatus(newLoadingState = false) {
-        this.setState({ isLoading: newLoadingState });
-    }
-
-    async attData() {
+    async getDataFromAPI(obj) {
         try {
-            const response = await fetch("https://pokeapi.co/api/v2/pokemon/");
+            const response = await fetch(this.props.navigation.state.params.url);
             const responseJson = await response.json();
-            this.setState({
+            obj.setState({
                 isLoading: false,
                 dataSource: responseJson.results,
             }, function () {
             });
         }
         catch (error) {
-            console.error(error);
+            obj.setState({
+                isLoading: false,
+                error: 'Something just went wrong',
+            });
         }
     }
 
     render() {
 
-        if (this.state.isLoading) {
-            return (
-                <View style={{ flex: 1, padding: 20 }}>
-                    <ActivityIndicator />
-                </View>
-            )
-        }
-
         return (
             <View style={{ flex: 1, paddingTop: 20 }}>
                 <PokeList
-                    navigationEvent={(url) => {
-                        this.props.navigation.navigate(
-                            { routeName: 'MyModal', url: url },
-
-                        )
-                    }}
-                    dataSource={this.state.dataSource}
+                    // Necessary
+                    navigation={this.props.navigation}
+                    // Customized
+                    loadList={(obj) => this.getDataFromAPI(obj)}
                     onEndReached={() => { Alert.alert("Cheguei ao fim") }}
-
-                    extraData={this.state}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.isLoading}
-                            onRefresh={() => {
-                                this.setState({ isLoading: true });
-                                this.attData();
-                            }}
-                        />
-                    }
+                    routeName="MyModal"
                 ></PokeList>
             </View>
         );

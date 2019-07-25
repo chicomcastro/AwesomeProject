@@ -12,6 +12,7 @@ import {
     FlatList,
     ActivityIndicator,
     TouchableOpacity,
+    RefreshControl,
 } from 'react-native';
 
 import PokeListItem from '../custom_components/PokeListItem.js'
@@ -19,17 +20,32 @@ import PokeListItem from '../custom_components/PokeListItem.js'
 
 export default class PokeList extends React.Component {
 
-    constructor(props) {
-        super(props);
+    state = {
+        isLoading: true,
+        dataSource: [],
+        error: '',
+    };
+
+    componentDidMount() {
+        return this.props.loadList(this);
     }
 
     render() {
+
+        if (this.state.isLoading) {
+            return (
+                <ActivityIndicator />
+            )
+        }
+
         return (
             <FlatList
-                data={this.props.dataSource}
+                data={this.state.dataSource}
                 renderItem={({ item }) => this.renderListButton(item.name, item.url)}
                 keyExtractor={(item) => item.url}
+
                 numColumns={1}
+
                 ListEmptyComponent={
                     <Text
                         style={{
@@ -41,10 +57,20 @@ export default class PokeList extends React.Component {
                         Your list is empty
                     </Text>
                 }
+
                 onEndReachedThreshold={0.1}
                 onEndReached={() => this.props.onEndReached ? this.props.onEndReached() : null}
-                extraData={this.props.extraData}
-                refreshControl={this.props.refreshControl}
+
+                extraData={this.state}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.isLoading}
+                        onRefresh={() => {
+                            this.setState({ isLoading: true });
+                            this.props.loadList(this);
+                        }}
+                    />
+                }
             />
         );
     }
@@ -53,7 +79,11 @@ export default class PokeList extends React.Component {
         return (
             <PokeListItem
                 activatedText={name.charAt(0).toUpperCase() + name.slice(1)}
-                navigationEvent={() => this.props.navigationEvent(url)}
+                navigationEvent={() => { this.props.routeName ?
+                    this.props.navigation.navigate(
+                        { routeName: this.props.routeName , url: url },
+                    ) : null
+                }}
             ></PokeListItem> // 
         )
     }

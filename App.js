@@ -20,10 +20,27 @@ import PokeItensScreen from './src/screens/tabs/PokeItensScreen'
 import { YellowBox } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const RootStack = createStackNavigator(
+const PokeListStack = createStackNavigator(
   {
-    Main: {
+    Pokemons: {
       screen: PokeListScreen,
+      params: { url: "https://pokeapi.co/api/v2/pokemon/", modal: "MyModal" }
+    },
+    MyModal: {
+      screen: ModalScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);
+
+const PokeItemStack = createStackNavigator(
+  {
+    Pokemons: {
+      screen: PokeListScreen,
+      params: { url: "https://pokeapi.co/api/v2/item/", modal: "MyModal" }
     },
     MyModal: {
       screen: ModalScreen,
@@ -38,8 +55,8 @@ const RootStack = createStackNavigator(
 const TabNavigator = createMaterialTopTabNavigator(
   {
     Favorites: { screen: FavoritesScreen },
-    Pokemons: { screen: RootStack },
-    Itens: { screen: PokeItensScreen },
+    Pokemons: { screen: PokeListStack },
+    Itens: { screen: PokeItemStack },
   },
   {
     tabBarOptions: {
@@ -57,17 +74,17 @@ const TabNavigator = createMaterialTopTabNavigator(
   }
 )
 
-const MainStack = createStackNavigator({
-  Home: {
-    screen: TabNavigator,
+const MainStack = createStackNavigator(
+  {
+    Home: { screen: TabNavigator, },
   },
-}, {
+  {
     initialRouteName: 'Home',
     defaultNavigationOptions: {
       title: 'myPokedex',
 
       headerLeft: (
-        <ReactNative.View style={{ alignItems:'center', paddingLeft: 10 }}>
+        <ReactNative.View style={{ alignItems: 'center', paddingLeft: 10 }}>
           <ReactNative.Image
             source={{ uri: 'https://seeklogo.com/images/P/pokeball-logo-DC23868CA1-seeklogo.com.png' }}
             style={{ width: 35, height: 35 }}
@@ -77,14 +94,14 @@ const MainStack = createStackNavigator({
       headerRight: (
         <ReactNative.View style={{ alignContent: 'center', justifyContent: 'center', flexDirection: "row" }}>
           < ReactNative.TouchableWithoutFeedback onPress={() => ReactNative.Alert.alert('This is a lupa!')}>
-            <ReactNative.View style={{ flex: 1, width: 50, alignItems:'center'  }}>
+            <ReactNative.View style={{ flex: 1, width: 50, alignItems: 'center' }}>
               <Icon size={25} style={{ color: '#fff' }}
                 name="search"
               />
             </ReactNative.View>
           </ReactNative.TouchableWithoutFeedback>
           < ReactNative.TouchableWithoutFeedback onPress={() => ReactNative.Alert.alert('This is a reticencias!')}>
-            <ReactNative.View style={{ flex: 1, width: 50, alignItems:'center' }}>
+            <ReactNative.View style={{ flex: 1, width: 50, alignItems: 'center' }}>
               <Icon size={25} style={{ color: '#fff' }}
                 name="ellipsis-v"
               />
