@@ -4,6 +4,7 @@ Todos:
 ☐ Favorites list
 (https://www.npmjs.com/package/react-native-swipe-list-view)
     ☐ Persist data local
+    (http://www.reactnativeexpress.com/data)
     ☐ Implement firebase integration
 ☐ Details Screen
 ☐ Pagination
