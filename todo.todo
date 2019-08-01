@@ -1,10 +1,10 @@
 Todos:
 ☐ Search function
 (https://docs.nativebase.io/Components.html#search-bar-headref)
+☐ Details Screen
+☐ Pagination
 ☐ Favorites list
 (https://www.npmjs.com/package/react-native-swipe-list-view)
     ☐ Persist data local
     (http://www.reactnativeexpress.com/data)
     ☐ Implement firebase integration
-☐ Details Screen
-☐ Pagination
