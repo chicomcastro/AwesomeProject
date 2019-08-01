@@ -26,13 +26,14 @@ import PokeList from '../../custom_components/PokeList.js'
 
 export default class PokeListScreen extends React.Component {
 
-    async getDataFromAPI(obj) {
+    async getDataFromAPI(obj, url) {
         try {
-            const response = await fetch(this.props.navigation.state.params.url);
+            const response = await fetch(url);
             const responseJson = await response.json();
             obj.setState({
                 isLoading: false,
-                dataSource: responseJson.results,
+                dataSource: [obj.state.dataSource, ...responseJson.results],
+                nextPage: responseJson.next,
             }, function () {
             });
         }
@@ -52,8 +53,8 @@ export default class PokeListScreen extends React.Component {
                     // Necessary
                     navigation={this.props.navigation}
                     // Customized
-                    loadList={(obj) => this.getDataFromAPI(obj)}
-                    onEndReached={() => { Alert.alert("Cheguei ao fim") }}
+                    loadList={(obj) => this.getDataFromAPI(obj, this.props.navigation.state.params.url)}
+                    onEndReached={(obj, url) => this.getDataFromAPI(obj, url)}
                     routeName="MyModal"
                 ></PokeList>
             </View>
