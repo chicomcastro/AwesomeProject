@@ -59,7 +59,7 @@ export default class PokeList extends React.Component {
                 }
 
                 onEndReachedThreshold={0.1}
-                onEndReached={() => this.props.onEndReached ? this.props.onEndReached() : null}
+                onEndReached={() => this.props.onEndReached ? (this.state.nextPage ? this.props.onEndReached(this, this.state.nextPage) : null) : null}
 
                 extraData={this.state}
                 refreshControl={
@@ -84,7 +84,7 @@ export default class PokeList extends React.Component {
                         { routeName: this.props.routeName , url: url },
                     ) : null
                 }}
-            ></PokeListItem> // 
+            ></PokeListItem> //
         )
     }
 }
