@@ -2,69 +2,89 @@
 import React from 'react';
 
 import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
-    View,
-    Text,
-    Image,
-    StatusBar,
-    Alert,
-    FlatList, ActivityIndicator,
-    TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  Image,
+  StatusBar,
+  Alert,
+  FlatList, ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 
 import { Button, ThemeProvider } from 'react-native-elements';
 
 
 export default class ModalScreen extends React.Component {
-    
 
-    doFetch() {
+  state = {
+    isLoading: true,
+    dataSource: [],
+    error: '',
+  };
 
-        let url = this.props.url;
+  componentDidMount() {
+    // Verificar se possui acesso a esse url
+    alert(this.props.navigation.state.params.url);
+  }
 
-        // desativa
-        this.props.loadingEvent(true);
+  loadingEvent(newState = false) {
+    this.setState({ isLoading: newState });
+  }
 
-        fetch(url)
-            .then(response => {//console.log(response);
-                response.json()
-                    .then(jsonData => {
-                        // ativa
-                        this.props.navigationEvent();
-                        this.props.loadingEvent(false);
-                        //Alert.alert("Êxito!"); console.log(jsonData);
-                    })
-                    .catch(err => {
-                        // ativa
-                        this.props.loadingEvent();
-                        Alert.alert("Erro no json!");
-                    });
-            })
-            .catch(err => {
-                // ativa
-                this.props.loadingEvent();
-                Alert.alert("Erro no fetch!");
-            });
+  doFetch() {
+    let url = this.props.navigation.state.params.url;
+
+    // desativa
+    this.loadingEvent(true);
+
+    fetch(url)
+      .then(response => {
+        response.json()
+          .then(jsonData => {
+            this.loadingEvent(false);
+            console.log(jsonData);
+          })
+          .catch(err => {
+            this.loadingEvent();
+            Alert.alert("Erro no json!");
+            console.log(err);
+          });
+      })
+      .catch(err => {
+        this.loadingEvent();
+        Alert.alert("Erro no fetch!");
+        console.log(err);
+      });
+  }
+
+  render() {
+
+    if (this.state.isLoading) {
+      return (
+        <ActivityIndicator />
+      )
     }
 
-    render() {
-        return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 30 }}>This is a modal!</Text>
-                <Button
-                    onPress={() => this.props.navigation.goBack()}
-                    title="Dismiss"
-                />
-            </View>
-        );
-    }
+    return (
+      <View style={{ flex: 1, }}>
+        <Text>Pokemon sprite</Text>
+        <Text>Star sprite</Text>
+        <Text style={{ fontSize: 30 }}>This is a modal!</Text>
+        <Button
+          onPress={() => this.props.navigation.goBack()}
+          title="Dismiss"
+        />
+      </View>
+    );
+  }
 };
 
 import ViewPager from "@react-native-community/viewpager";
 
-export class MyPager extends React.Component { 
+export class MyPager extends React.Component {
   render() {
     return (
       <ViewPager
