@@ -10,7 +10,6 @@ import {
     Button,
     Alert,
     FlatList,
-    TextInput,
     ActivityIndicator,
     TouchableOpacity,
     RefreshControl,
@@ -49,7 +48,6 @@ export default class PokeListScreen extends React.Component {
 
         return (
             <View style={{ flex: 1, paddingTop: 20 }}>
-                <TextInput/>
                 <PokeList
                     // Necessary
                     navigation={this.props.navigation}

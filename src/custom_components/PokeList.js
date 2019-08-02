@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 import PokeListItem from '../custom_components/PokeListItem.js'
-
+import { SearchBar } from 'react-native-elements';
 
 export default class PokeList extends React.Component {
 
@@ -24,6 +24,11 @@ export default class PokeList extends React.Component {
         isLoading: true,
         dataSource: [],
         error: '',
+        search: '',
+    };
+
+    updateSearch = search => {
+        this.setState({ search: search });
     };
 
     componentDidMount() {
@@ -38,9 +43,11 @@ export default class PokeList extends React.Component {
             )
         }
 
+        const { search } = this.state;
+
         return (
             <FlatList
-                data={this.state.dataSource}
+                data={this.filterData(this.state.dataSource)}
                 renderItem={({ item }) => this.renderListButton(item.name, item.url)}
                 keyExtractor={(item) => item.url}
 
@@ -56,6 +63,14 @@ export default class PokeList extends React.Component {
                     >
                         Your list is empty
                     </Text>
+                }
+
+                ListHeaderComponent={
+                    <SearchBar
+                        placeholder="Type Here..."
+                        onChangeText={this.updateSearch}
+                        value={search}
+                    />
                 }
 
                 onEndReachedThreshold={0.1}
@@ -79,12 +94,17 @@ export default class PokeList extends React.Component {
         return (
             <PokeListItem
                 activatedText={name.charAt(0).toUpperCase() + name.slice(1)}
-                navigationEvent={() => { this.props.routeName ?
-                    this.props.navigation.navigate(
-                        { routeName: this.props.routeName , url: url },
-                    ) : null
+                navigationEvent={() => {
+                    this.props.routeName ?
+                        this.props.navigation.navigate(
+                            { routeName: this.props.routeName, url: url },
+                        ) : null
                 }}
             ></PokeListItem> //
         )
+    }
+
+    filterData(data) {
+        return data.filter((item) => { if (item.name.includes(this.state.search)) return item; });
     }
 }
