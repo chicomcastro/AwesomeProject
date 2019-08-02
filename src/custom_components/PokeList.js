@@ -17,6 +17,7 @@ import {
 
 import PokeListItem from '../custom_components/PokeListItem.js'
 import { SearchBar } from 'react-native-elements';
+import DataHolder from '../DataHolder'
 
 export default class PokeList extends React.Component {
 

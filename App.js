@@ -15,9 +15,12 @@ import ModalScreen from './src/screens/ModalScreen'
 
 import FavoritesScreen from './src/screens/tabs/FavoritesScreen'
 import PokeListScreen from './src/screens/tabs/PokeListScreen'
+import DataHolder from './src/DataHolder'
 
 import { YellowBox } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { SearchBar } from 'react-native-elements';
+import HeaderTitle from './src/custom_components/HeaderTitle'
 
 const PokeListStack = createStackNavigator(
   {
@@ -80,8 +83,7 @@ const MainStack = createStackNavigator(
   {
     initialRouteName: 'Home',
     defaultNavigationOptions: {
-      title: 'myPokedex',
-
+      title: "myPokedex",
       headerLeft: (
         <ReactNative.View style={{ alignItems: 'center', paddingLeft: 10 }}>
           <ReactNative.Image
@@ -92,7 +94,7 @@ const MainStack = createStackNavigator(
       ),
       headerRight: (
         <ReactNative.View style={{ alignContent: 'center', justifyContent: 'center', flexDirection: "row" }}>
-          < ReactNative.TouchableWithoutFeedback onPress={() => ReactNative.Alert.alert('This is a lupa!')}>
+          < ReactNative.TouchableWithoutFeedback onPress={() => { DataHolder.setSearchingStatus(!DataHolder.isSearching) }}>
             <ReactNative.View style={{ flex: 1, width: 50, alignItems: 'center' }}>
               <Icon size={25} style={{ color: '#fff' }}
                 name="search"
